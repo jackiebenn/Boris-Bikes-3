@@ -16,8 +16,8 @@ it 'releases working bikes' do
   bike = Bike.new
   subject.dock(bike)
   bike = subject.release_bike
-   expect(bike).to be_working
-   end
+  expect(bike).to be_working
+  end
 end
 
 describe '#dock' do
@@ -44,6 +44,15 @@ end
       docking_station = DockingStation.new(50)
       50.times { docking_station.dock Bike.new }
       expect{ docking_station.dock Bike.new }.to raise_error 'Docking station full'
+    end
+  end
+
+  describe 'report a bike to be broken, when returning' do
+    it 'returns the docked bike, which flagged as broken' do
+      bike = Bike.new
+      is_broken = true
+      returned_bike = subject.dock(bike, is_broken)[0]
+      expect(returned_bike.working?).to be false
     end
   end
 end
